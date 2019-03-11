@@ -31,7 +31,7 @@ http.createServer((req, res) => {
             <form action="/myform" method="post">
               Nombre:
               <input type="text" name="Nombre"/> <br />
-              <input type="submit"/>
+              <input type="submit" value="Enviar"/>
             </form>
           </body>
         </html>
@@ -57,13 +57,21 @@ http.createServer((req, res) => {
             <p>Recibido: `
 
         req.on('data', chunk => {
-            content += chunk.toString(); // convert Buffer to string
+            //-- Leer los datos (convertir el buffer a cadena)
+            data = chunk.toString();
+
+            //-- Añadir los datos a la respuesta
+            content += data;
+
+            //-- Fin del mensaje. Enlace al formulario
             content += `
                 </p>
                 <a href="/">[Formulario]</a>
               </body>
             </html>
             `
+            //-- Mostrar los datos en la consola del servidor
+            console.log("Datos recibidos: " + data)
             res.statusCode = 200;
          });
 
